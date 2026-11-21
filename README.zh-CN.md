@@ -9,6 +9,122 @@
 
 > **最小可运行版本。** 本仓库是完整项目的一个子集：包含代码、医疗 LoRA 适配器和可解释性结果，足以端到端验证整条流程。仓库**不包含** 56MB 基座 checkpoint、大型训练数据集，也不包含完整的 pretrain/SFT/DPO checkpoint 和训练日志。具体边界见[范围与限制](#范围与限制)。
 
+## 项目地图
+
+### 流程图
+
+```mermaid
+flowchart LR
+    subgraph DATA["数据"]
+        D1["合成医疗 QA<br/>100 条 / 66 条带科室标签"]
+        D2["官方 MiniMind<br/>lora_medical.jsonl"]
+        D3["SFT checkpoint<br/>full_sft_512.pth（下载）"]
+    end
+
+    subgraph PIPE["训练管线（代码已包含）"]
+        T1["BPE 分词器<br/>vocab 6400"]
+        T2["Next-token<br/>预训练"]
+        T3["SFT"]
+        T4["DPO"]
+        T5["LoRA<br/>医疗域适配"]
+    end
+
+    subgraph EVAL["评测与 Demo（已包含）"]
+        E1["BLEU-4 / ROUGE-L<br/>distinct-n / 安全性"]
+        E2["Streamlit Demo"]
+        E3["LoRA 适配器<br/>+ 评测报告"]
+    end
+
+    subgraph XAI["可解释性（已包含）"]
+        X1["冻结 MiniMind<br/>hidden states"]
+        X2["8 科室<br/>线性探针"]
+        X3["5-fold CV<br/>one-vs-rest AUC"]
+        X4["Token occlusion<br/>LIME / KernelSHAP"]
+        X5["report.md<br/>图表 / JSON"]
+    end
+
+    D1 --> T5
+    D1 --> X1
+    D2 --> T5
+    D3 --> T5
+    D3 --> X1
+    T1 --> T2 --> T3 --> T4
+    T3 -.-> D3
+    T5 --> E1
+    T5 --> E2
+    E1 --> E3
+    X1 --> X2 --> X3
+    X2 --> X4
+    X4 --> X5
+
+    classDef included fill:#e8f1ff,stroke:#2f7ed8,stroke-width:2px,color:#111
+    classDef external fill:#f6f6f6,stroke:#999,color:#444
+    class D1,T5,E1,E2,E3,X1,X2,X3,X4,X5 included
+    class D2,D3,T1,T2,T3,T4 external
+```
+
+**图例：** 蓝色 = 本最小版本已包含/可复现；灰色 = 代码路径或外部下载，不随仓库分发。
+
+### 知识点图
+
+```mermaid
+flowchart LR
+    ROOT["MiniMind 26M<br/>医疗问答 + 可解释性"]
+
+    subgraph ARCH["模型架构"]
+        A1["RoPE"]
+        A2["RMSNorm"]
+        A3["SwiGLU"]
+        A4["GQA"]
+        A5["因果注意力"]
+        A6["KV-Cache / Flash Attention"]
+    end
+
+    subgraph TRAIN["训练"]
+        T1["BPE 分词器"]
+        T2["预训练"]
+        T3["SFT"]
+        T4["DPO"]
+        T5["LoRA"]
+    end
+
+    subgraph MED["医疗问答"]
+        M1["合成数据"]
+        M2["官方 lora_medical"]
+        M3["BLEU / ROUGE / distinct / 安全"]
+        M4["Streamlit Demo"]
+    end
+
+    subgraph XAI["可解释性"]
+        X1["冻结隐状态"]
+        X2["线性探针"]
+        X3["5-fold CV / AUC"]
+        X4["Occlusion"]
+        X5["LIME"]
+        X6["KernelSHAP"]
+        X7["方法一致性"]
+    end
+
+    ROOT --> A1
+    ROOT --> T1
+    ROOT --> M1
+    ROOT --> X1
+    T1 --> T2 --> T3 --> T4
+    T3 --> T5
+    T3 --> X1
+    M1 --> T5
+    M2 --> T5
+    T5 --> M3
+    T5 --> M4
+    X1 --> X2 --> X3
+    X2 --> X4
+    X2 --> X5
+    X2 --> X6
+    X4 --> X7
+    X5 --> X7
+    X6 --> X7
+```
+
 ## 这个最小版本包含什么
 
 - **26M decoder-only Transformer**：RoPE、RMSNorm、SwiGLU、GQA、causal self-attention、KV-Cache、Flash Attention。

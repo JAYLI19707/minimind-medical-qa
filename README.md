@@ -13,6 +13,122 @@ This repository is based on the open-source [MiniMind](https://github.com/jingya
 > datasets, or the full pretrain/SFT/DPO checkpoints and logs. See
 > [Scope and limitations](#scope-and-limitations) for the exact boundary.
 
+## Project map
+
+### Pipeline
+
+```mermaid
+flowchart LR
+    subgraph DATA["Data"]
+        D1["Synthetic medical QA<br/>100 samples / 66 labeled"]
+        D2["Official MiniMind<br/>lora_medical.jsonl"]
+        D3["SFT checkpoint<br/>full_sft_512.pth (download)"]
+    end
+
+    subgraph PIPE["Training pipeline (code included)"]
+        T1["BPE tokenizer<br/>vocab 6400"]
+        T2["Next-token<br/>pretraining"]
+        T3["SFT"]
+        T4["DPO"]
+        T5["LoRA<br/>medical adaptation"]
+    end
+
+    subgraph EVAL["Evaluation & demo (included)"]
+        E1["BLEU-4 / ROUGE-L<br/>distinct-n / safety"]
+        E2["Streamlit demo"]
+        E3["LoRA adapters<br/>+ reports"]
+    end
+
+    subgraph XAI["Interpretability (included)"]
+        X1["Frozen MiniMind<br/>hidden states"]
+        X2["8-department<br/>linear probe"]
+        X3["5-fold CV<br/>one-vs-rest AUC"]
+        X4["Token occlusion<br/>LIME / KernelSHAP"]
+        X5["report.md<br/>figures / JSON"]
+    end
+
+    D1 --> T5
+    D1 --> X1
+    D2 --> T5
+    D3 --> T5
+    D3 --> X1
+    T1 --> T2 --> T3 --> T4
+    T3 -.-> D3
+    T5 --> E1
+    T5 --> E2
+    E1 --> E3
+    X1 --> X2 --> X3
+    X2 --> X4
+    X4 --> X5
+
+    classDef included fill:#e8f1ff,stroke:#2f7ed8,stroke-width:2px,color:#111
+    classDef external fill:#f6f6f6,stroke:#999,color:#444
+    class D1,T5,E1,E2,E3,X1,X2,X3,X4,X5 included
+    class D2,D3,T1,T2,T3,T4 external
+```
+
+**Legend:** blue = included or reproducible in this minimal release; grey = code path or external download, not redistributed.
+
+### Knowledge map
+
+```mermaid
+flowchart LR
+    ROOT["MiniMind 26M<br/>Medical QA + Interpretability"]
+
+    subgraph ARCH["Architecture"]
+        A1["RoPE"]
+        A2["RMSNorm"]
+        A3["SwiGLU"]
+        A4["GQA"]
+        A5["Causal attention"]
+        A6["KV-Cache / Flash Attention"]
+    end
+
+    subgraph TRAIN["Training"]
+        T1["BPE tokenizer"]
+        T2["Pretraining"]
+        T3["SFT"]
+        T4["DPO"]
+        T5["LoRA"]
+    end
+
+    subgraph MED["Medical QA"]
+        M1["Synthetic data"]
+        M2["Official lora_medical"]
+        M3["BLEU / ROUGE / distinct / safety"]
+        M4["Streamlit demo"]
+    end
+
+    subgraph XAI["Interpretability"]
+        X1["Frozen hidden states"]
+        X2["Linear probe"]
+        X3["5-fold CV / AUC"]
+        X4["Occlusion"]
+        X5["LIME"]
+        X6["KernelSHAP"]
+        X7["Method agreement"]
+    end
+
+    ROOT --> A1
+    ROOT --> T1
+    ROOT --> M1
+    ROOT --> X1
+    T1 --> T2 --> T3 --> T4
+    T3 --> T5
+    T3 --> X1
+    M1 --> T5
+    M2 --> T5
+    T5 --> M3
+    T5 --> M4
+    X1 --> X2 --> X3
+    X2 --> X4
+    X2 --> X5
+    X2 --> X6
+    X4 --> X7
+    X5 --> X7
+    X6 --> X7
+```
+
 ## What this minimal version includes
 
 - **26M decoder-only Transformer**: RoPE, RMSNorm, SwiGLU, grouped-query attention (GQA), causal self-attention, KV-Cache and Flash Attention.
