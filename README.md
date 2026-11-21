@@ -1,5 +1,8 @@
 # MiniMind Medical QA + Interpretability (26M)
 
+[![English](https://img.shields.io/badge/README-English-2f81f7?style=flat-square)](README.md)
+[![中文](https://img.shields.io/badge/README-%E4%B8%AD%E6%96%87-d73a4a?style=flat-square)](README.zh-CN.md)
+
 **This is a minimal, runnable release** of a **26M-parameter MiniMind** project focused on Chinese medical question answering and interpretability.
 
 This repository is based on the open-source [MiniMind](https://github.com/jingyaogong/minimind) project (Apache-2.0). It contains the code needed to verify the model, the training pipeline, the medical LoRA experiment, and the interpretability analysis. **Large base weights and datasets are not included**; download instructions are below.
