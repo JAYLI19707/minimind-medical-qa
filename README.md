@@ -1,16 +1,29 @@
 # MiniMind Medical QA + Interpretability (26M)
 
-A minimal, runnable subset of a **26M-parameter MiniMind** project focused on Chinese medical question answering and interpretability.
+**This is a minimal, runnable release** of a **26M-parameter MiniMind** project focused on Chinese medical question answering and interpretability.
 
 This repository is based on the open-source [MiniMind](https://github.com/jingyaogong/minimind) project (Apache-2.0). It contains the code needed to verify the model, the training pipeline, the medical LoRA experiment, and the interpretability analysis. **Large base weights and datasets are not included**; download instructions are below.
 
-## What is included
+> **Minimal runnable version.** This repository is intentionally a subset of the full project:
+> it contains the code, medical LoRA adapters and interpretability results needed to verify the
+> pipeline end-to-end. It does **not** contain the 56MB base checkpoint, the large training
+> datasets, or the full pretrain/SFT/DPO checkpoints and logs. See
+> [Scope and limitations](#scope-and-limitations) for the exact boundary.
+
+## What this minimal version includes
 
 - **26M decoder-only Transformer**: RoPE, RMSNorm, SwiGLU, grouped-query attention (GQA), causal self-attention, KV-Cache and Flash Attention.
 - **Training pipeline code**: tokenization, next-token pretraining, SFT, DPO and LoRA trainers.
 - **Medical QA LoRA adapters** (`0.131M` trainable parameters, about `0.50%`) plus evaluation reports.
 - **Interpretability toolkit**: frozen MiniMind hidden states → 8-department linear probe → 5-fold cross-validation + one-vs-rest AUC → token occlusion + LIME + KernelSHAP, with out-of-fold explanations.
 - **Synthetic sample medical data** and reproducible reports.
+
+### What this minimal version does not include
+
+- The 56MB base checkpoint `full_sft_512.pth` — download it with the command in Quick start.
+- Large datasets (`pretrain_hq.jsonl`, `sft_mini_512.jsonl`, `dpo.jsonl`, `lora_medical.jsonl`) — download from the MiniMind dataset links.
+- Full pretrain/SFT/DPO checkpoints and training logs; the released results use the official SFT base plus the included medical LoRA adapters.
+- A 64M checkpoint, a 3B-token pretraining checkpoint, or a 10K+ instruction SFT checkpoint — the code supports these runs, but they are not part of this minimal release.
 
 ## Results
 
@@ -42,6 +55,8 @@ The evaluation set is small (20 questions), so treat these numbers as a smoke te
 Full report: [`applications/interpretability/results/report.md`](applications/interpretability/results/report.md).
 
 ## Quick start
+
+This is the complete verification path for the minimal release: install dependencies, download the base checkpoint, verify the model/LoRA, then run the interpretability analysis.
 
 ### 1. Install dependencies
 
