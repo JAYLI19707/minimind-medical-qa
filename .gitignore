@@ -1,0 +1,12 @@
+out/
+checkpoints/
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+dataset/*.jsonl
+logs/
+wandb/
+.claude/
+Thumbs.db
+.DS_Store

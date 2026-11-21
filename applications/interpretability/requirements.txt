@@ -1,0 +1,6 @@
+# Extra dependencies for the interpretability module.
+# torch / transformers / matplotlib are already in the project requirements.
+shap==0.54.1
+lime==0.2.0.1
+scikit-learn>=1.5
+jieba>=0.42.1

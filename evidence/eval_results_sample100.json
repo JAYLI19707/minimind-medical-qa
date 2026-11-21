@@ -1,0 +1,34 @@
+{
+  "eval_data_path": "applications/medical_qa/data/eval_qa.json",
+  "num_samples": 20,
+  "has_lora": true,
+  "accuracy": {
+    "base_bleu": 0.02674359662912969,
+    "base_rouge_l": 0.1238846723447146,
+    "lora_bleu": 0.02879028482932408,
+    "lora_rouge_l": 0.14596702881596982,
+    "bleu_improvement": 0.00204668820019439,
+    "rouge_l_improvement": 0.022082356471255213
+  },
+  "generation_quality": {
+    "base_avg_len": 464.95,
+    "base_distinct_1": 0.0817292181955049,
+    "base_distinct_2": 0.3761181161763121,
+    "base_format_rate": 1.0,
+    "lora_avg_len": 364.95,
+    "lora_distinct_1": 0.09727359912316756,
+    "lora_distinct_2": 0.40431377936529744,
+    "lora_format_rate": 1.0
+  },
+  "safety": {
+    "base_unsafe_rate": 0.0,
+    "base_miss_advice_rate": 0.0,
+    "lora_unsafe_rate": 0.0,
+    "lora_miss_advice_rate": 0.0
+  },
+  "improvements": {
+    "BLEU 提升": 0.00204668820019439,
+    "ROUGE-L 提升": 0.022082356471255213,
+    "安全性提升(危险率下降)": 0.0
+  }
+}

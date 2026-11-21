@@ -1,0 +1,41 @@
+[
+  {
+    "index": 43,
+    "department": "儿科",
+    "question": "宝宝添加辅食后总是拉肚子，是过敏吗？",
+    "probability": 0.9560898542404175,
+    "occlusion_top": "宝宝 (+0.952), 辅食 (+0.005), 过敏 (-0.029), 拉肚子 (-0.033), 添加 (-0.041)",
+    "lime_top": "宝宝 (+0.884), 辅食 (+0.099), 添加 (+0.036), 拉肚子 (+0.030)",
+    "shap_top": "宝宝 (+0.922), 辅食 (+0.071), 拉肚子 (+0.022), 添加 (+0.021), 过敏 (-0.001)",
+    "lime_png": "lime_43_Pediatrics.png",
+    "lime_html": "lime_43_Pediatrics.html",
+    "shap_png": "shap_43_Pediatrics.png",
+    "occlusion_png": "occlusion_43_Pediatrics.png"
+  },
+  {
+    "index": 18,
+    "department": "妇产科",
+    "question": "宫颈糜烂需要治疗吗？会变成宫颈癌吗？",
+    "probability": 0.9092667698860168,
+    "occlusion_top": "宫颈 (+0.887), 糜烂 (+0.871), 宫颈癌 (+0.701)",
+    "lime_top": "宫颈 (+0.343), 宫颈癌 (+0.100), 糜烂 (-0.167)",
+    "shap_top": "宫颈 (+0.298), 宫颈癌 (+0.104), 糜烂 (-0.173)",
+    "lime_png": "lime_18_OB_GYN.png",
+    "lime_html": "lime_18_OB_GYN.html",
+    "shap_png": "shap_18_OB_GYN.png",
+    "occlusion_png": "occlusion_18_OB_GYN.png"
+  },
+  {
+    "index": 29,
+    "department": "皮肤科",
+    "question": "脚上长了鸡眼，走路很疼，怎么去除？",
+    "probability": 0.7664908766746521,
+    "occlusion_top": "疼 (+0.756), 去除 (+0.750), 走路 (+0.745), 脚上 (+0.710), 鸡眼 (+0.599)",
+    "lime_top": "疼 (+0.065), 走路 (+0.053), 脚上 (+0.031), 去除 (+0.019), 鸡眼 (-0.093)",
+    "shap_top": "走路 (+0.210), 疼 (+0.026), 去除 (+0.025), 脚上 (-0.036), 鸡眼 (-0.096)",
+    "lime_png": "lime_29_Dermatology.png",
+    "lime_html": "lime_29_Dermatology.html",
+    "shap_png": "shap_29_Dermatology.png",
+    "occlusion_png": "occlusion_29_Dermatology.png"
+  }
+]
